@@ -30,5 +30,11 @@ private:
 	/** Camera boom positioning the camera above the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
+
+	UFUNCTION()
+	void Move_X(float input);
+
+	UFUNCTION()
+	void Move_Y(float input);
 };
 

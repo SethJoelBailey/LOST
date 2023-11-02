@@ -49,3 +49,20 @@ void ALOSTCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 }
+
+void ALOSTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	PlayerInputComponent->BindAxis(TEXT("Move_X"), this, &ALOSTCharacter::Move_X);
+	PlayerInputComponent->BindAxis(TEXT("Move_Y"), this, &ALOSTCharacter::Move_Y);
+}
+
+void ALOSTCharacter::Move_X(float input)
+{
+	AddMovementInput(GetActorForwardVector() * input);
+}
+
+void ALOSTCharacter::Move_Y(float input)
+{
+	AddMovementVector(GetActorRightVector() * input);
+}
