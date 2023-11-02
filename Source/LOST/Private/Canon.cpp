@@ -2,6 +2,8 @@
 
 
 #include "Canon.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ACanon::ACanon()
@@ -24,8 +26,24 @@ void ACanon::OnConstruction(const FTransform& Transform)
 void ACanon::BeginPlay()
 {
 	Super::BeginPlay();
+
 	if (MeshAsset) MeshComponent->SetStaticMesh(MeshAsset);
 	
+	PlayerRef = Cast<ACharacter>(UGameplayStatics::GetActorOfClass(this, ACharacter::StaticClass()));
+
+	if (!PlayerRef) Destroy();
+
+	FTimerDelegate TurnDelegate;
+	TurnDelegate.BindUFunction(this, FName("TurnToPlayer"));
+	GetWorld()->GetTimerManager().SetTimer(TurnTimer, TurnDelegate, GetWorld()->GetDeltaSeconds(), true);
+	GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Red, "Turn timer set");
+}
+
+void ACanon::TurnToPlayer()
+{
+	GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Red, "Turning");
+	FRotator NewRot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), PlayerRef->GetActorLocation());
+	SetActorRotation(NewRot);
 }
 
 // Called every frame
