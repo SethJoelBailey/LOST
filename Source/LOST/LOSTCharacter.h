@@ -36,5 +36,6 @@ private:
 
 	UFUNCTION()
 	void Move_Y(float input);
+
 };
 
