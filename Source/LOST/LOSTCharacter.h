@@ -6,6 +6,15 @@
 #include "GameFramework/Character.h"
 #include "LOSTCharacter.generated.h"
 
+UENUM(BlueprintType)
+enum GridJumpOptions
+{
+	Up UMETA(DisplayName = "Up"),
+	Down UMETA(DisplayName = "Down"),
+	Left UMETA(DisplayName = "Left"),
+	Right UMETA(DisplayName = "Right")
+};
+
 UCLASS(Blueprintable)
 class ALOSTCharacter : public ACharacter
 {
@@ -31,11 +40,9 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 
-	UFUNCTION()
-	void Move_X(float input);
+	UFUNCTION(BlueprintCallable)
+	bool teleport(AActor* target, GridJumpOptions MovOpt);
 
-	UFUNCTION()
-	void Move_Y(float input);
-
+	
 };
 

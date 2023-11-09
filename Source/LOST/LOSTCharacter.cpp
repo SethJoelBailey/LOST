@@ -50,19 +50,34 @@ void ALOSTCharacter::Tick(float DeltaSeconds)
     Super::Tick(DeltaSeconds);
 }
 
-void ALOSTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+bool ALOSTCharacter::teleport(AActor* target, GridJumpOptions MovOpt)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	PlayerInputComponent->BindAxis(TEXT("Move_X"), this, &ALOSTCharacter::Move_X);
-	PlayerInputComponent->BindAxis(TEXT("Move_Y"), this, &ALOSTCharacter::Move_Y);
-}
+	if (target)
+	{
+		FVector local = (target->GetActorLocation());
 
-void ALOSTCharacter::Move_X(float input)
-{
-	AddMovementInput(GetActorForwardVector() * input);
-}
 
-void ALOSTCharacter::Move_Y(float input)
-{
-	AddMovementVector(GetActorRightVector() * input);
+		switch (MovOpt)
+		{
+		case Up:
+			target->SetActorLocation(FVector(local.X + 100,local.Y,local.Z));
+			break;
+		case Down:
+			target->SetActorLocation(FVector(local.X - 100, local.Y, local.Z));
+			break;
+		case Left:
+			target->SetActorLocation(FVector(local.X, local.Y - 100, local.Z));
+			break;
+		case Right:
+			target->SetActorLocation(FVector(local.X, local.Y + 100, local.Z));
+			break;
+		default:
+			break;
+		}
+		
+		return true;
+	}
+	return false;
+
+	
 }
