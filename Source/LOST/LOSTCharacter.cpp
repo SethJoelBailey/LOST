@@ -52,24 +52,40 @@ void ALOSTCharacter::Tick(float DeltaSeconds)
 
 bool ALOSTCharacter::teleport(AActor* target, GridJumpOptions MovOpt)
 {
+	auto oneGrid = 100;
+	FVector local = (target->GetActorLocation());
+
 	if (target)
 	{
-		FVector local = (target->GetActorLocation());
-
-
 		switch (MovOpt)
 		{
+
 		case Up:
-			target->SetActorLocation(FVector(local.X + 100,local.Y,local.Z));
+			if (withinGameSpaceBounds(local.X, local.Y, MovOpt))
+			{
+				target->SetActorLocation(FVector(local.X + oneGrid,local.Y,local.Z));
+			}
 			break;
+
 		case Down:
-			target->SetActorLocation(FVector(local.X - 100, local.Y, local.Z));
+			if (withinGameSpaceBounds(local.X, local.Y, MovOpt))
+			{
+				target->SetActorLocation(FVector(local.X - oneGrid, local.Y, local.Z));
+			}
 			break;
+
 		case Left:
-			target->SetActorLocation(FVector(local.X, local.Y - 100, local.Z));
+			if (withinGameSpaceBounds(local.X, local.Y, MovOpt))
+			{
+				target->SetActorLocation(FVector(local.X, local.Y - oneGrid, local.Z));
+			}
 			break;
+
 		case Right:
-			target->SetActorLocation(FVector(local.X, local.Y + 100, local.Z));
+			if (withinGameSpaceBounds(local.X, local.Y, MovOpt))
+			{
+				target->SetActorLocation(FVector(local.X, local.Y + oneGrid, local.Z));
+			}
 			break;
 		default:
 			break;
@@ -80,4 +96,26 @@ bool ALOSTCharacter::teleport(AActor* target, GridJumpOptions MovOpt)
 	return false;
 
 	
+}
+
+bool ALOSTCharacter::withinGameSpaceBounds(float playerLocationX, float playerLocationY, GridJumpOptions direction, float top, float bottom, float farLeft, float farRight)
+{
+	switch (direction)
+	{
+	case Up:
+		if (playerLocationX == top) return false;
+		break;
+	case Down:
+		if (playerLocationX == bottom) return false;
+		break;
+	case Left:
+		if (playerLocationY == farLeft) return false;
+		break;
+	case Right:
+		if (playerLocationY == farRight) return false;
+		break;
+	default:
+		break;
+	}
+	return true;
 }
