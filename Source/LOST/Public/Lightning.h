@@ -21,6 +21,8 @@ protected:
 
 	int32 CallTracker = 5;
 
+	int intensity = 4;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

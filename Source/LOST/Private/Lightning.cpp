@@ -66,22 +66,19 @@ void ALightning::fireFireLightning()
 void ALightning::WhenToZap()
 {
 	
-	int intenisty = 6;
 	CallTracker--;
 
 	if (CallTracker > 1)
 	{
-		int zap = FMath::RandRange(1, intenisty);
+		int zap = FMath::RandRange(1, intensity);
 		if (zap == 1)
 		{
+			//intensity--;
 			DisplayWarning();
 			GetWorld()->GetTimerManager().SetTimer(DestinedZap, this, &ALightning::fireFireLightning, 1.0f, false);
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Fire"));
-			
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Hold"));
 			CallTracker = 5;
 		}
 	}
