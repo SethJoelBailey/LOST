@@ -44,7 +44,7 @@ private:
 	bool teleport(AActor* target, GridJumpOptions MovOpt);
 
 	UFUNCTION(BlueprintCallable)
-	bool withinGameSpaceBounds(float playerLocationX, float playerLocationY,GridJumpOptions direction, float top = 1750, float bottom = 1150, float farLeft = 1550, float farRight = 2150);
+	bool isValidGridPosition(FVector pos);
 	
 };
 

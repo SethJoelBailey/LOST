@@ -22,10 +22,10 @@ ALOSTCharacter::ALOSTCharacter()
 	bUseControllerRotationRoll = false;
 
 	// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
-	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
-	GetCharacterMovement()->bConstrainToPlane = true;
-	GetCharacterMovement()->bSnapToPlaneAtStart = true;
+	//GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
+	//GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
+	//GetCharacterMovement()->bConstrainToPlane = true;
+	//GetCharacterMovement()->bSnapToPlaneAtStart = true;
 
 	// Create a camera boom...
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -41,8 +41,8 @@ ALOSTCharacter::ALOSTCharacter()
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	// Activate ticking in order to update the cursor every frame.
-	PrimaryActorTick.bCanEverTick = true;
-	PrimaryActorTick.bStartWithTickEnabled = true;
+	//PrimaryActorTick.bCanEverTick = true;
+	//PrimaryActorTick.bStartWithTickEnabled = true;
 }
 
 void ALOSTCharacter::Tick(float DeltaSeconds)
@@ -52,70 +52,58 @@ void ALOSTCharacter::Tick(float DeltaSeconds)
 
 bool ALOSTCharacter::teleport(AActor* target, GridJumpOptions MovOpt)
 {
+	if (!target)
+		return false;
+
 	auto oneGrid = 100;
 	FVector local = (target->GetActorLocation());
 
-	if (target)
-	{
-		switch (MovOpt)
-		{
-
-		case Up:
-			if (withinGameSpaceBounds(local.X, local.Y, MovOpt))
-			{
-				target->SetActorLocation(FVector(local.X + oneGrid,local.Y,local.Z));
-			}
-			break;
-
-		case Down:
-			if (withinGameSpaceBounds(local.X, local.Y, MovOpt))
-			{
-				target->SetActorLocation(FVector(local.X - oneGrid, local.Y, local.Z));
-			}
-			break;
-
-		case Left:
-			if (withinGameSpaceBounds(local.X, local.Y, MovOpt))
-			{
-				target->SetActorLocation(FVector(local.X, local.Y - oneGrid, local.Z));
-			}
-			break;
-
-		case Right:
-			if (withinGameSpaceBounds(local.X, local.Y, MovOpt))
-			{
-				target->SetActorLocation(FVector(local.X, local.Y + oneGrid, local.Z));
-			}
-			break;
-		default:
-			break;
-		}
-		
-		return true;
-	}
-	return false;
-
-	
-}
-
-bool ALOSTCharacter::withinGameSpaceBounds(float playerLocationX, float playerLocationY, GridJumpOptions direction, float top, float bottom, float farLeft, float farRight)
-{
-	switch (direction)
+	switch (MovOpt)
 	{
 	case Up:
-		if (playerLocationX == top) return false;
+		local.X += oneGrid;
 		break;
 	case Down:
-		if (playerLocationX == bottom) return false;
+		local.X -= oneGrid;
 		break;
 	case Left:
-		if (playerLocationY == farLeft) return false;
+		local.Y -= oneGrid;
 		break;
 	case Right:
-		if (playerLocationY == farRight) return false;
+		local.Y += oneGrid;
 		break;
 	default:
 		break;
 	}
+
+	if (isValidGridPosition(local))
+	{
+		target->SetActorLocation(local);
+		return true;
+	}
+		
+	return false;
+	
+}
+
+
+bool ALOSTCharacter::isValidGridPosition(FVector pos)
+{
+	float top = 1750;
+	float bottom = 1150;
+	float farLeft = 1550;
+	float farRight = 2150;
+
+	if (pos.X > top || pos.X < bottom)
+	{
+		return false;
+	}
+
+	if (pos.Y < farLeft || pos.Y > farRight)
+	{
+		return false;
+	}
+		
 	return true;
+
 }
