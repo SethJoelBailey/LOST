@@ -22,7 +22,7 @@ ALightning::ALightning()
 void ALightning::BeginPlay()
 {
 	Super::BeginPlay();
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ALightning::WhenToZap, 1.0f, true, 2.0f);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ALightning::WhenToZap, 1.5f, true, 2.0f);
 	// ...
 
 }
@@ -54,6 +54,7 @@ AActor* ALightning::fireLightning()
 
 	}
 	AActor* hitObject = hit->GetActor();
+	DamagePlayer(hitObject);
 	return hitObject;
 }
 
@@ -68,7 +69,7 @@ void ALightning::WhenToZap()
 	
 	CallTracker--;
 
-	if (CallTracker > 1)
+	if (true)
 	{
 		int zap = FMath::RandRange(1, intensity);
 		if (zap == 1)

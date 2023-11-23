@@ -50,6 +50,14 @@ void ALOSTCharacter::Tick(float DeltaSeconds)
     Super::Tick(DeltaSeconds);
 }
 
+void ALOSTCharacter::PlayerDeath_Implementation()
+{
+	if (HP <= 0)
+	{
+		Destroy();
+	}
+}
+
 bool ALOSTCharacter::teleport(AActor* target, GridJumpOptions MovOpt)
 {
 	if (!target)

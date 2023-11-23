@@ -21,7 +21,7 @@ protected:
 
 	int32 CallTracker = 5;
 
-	int intensity = 4;
+	int intensity = 3;
 
 public:
 	// Called every frame
@@ -32,6 +32,9 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Early Warning")
 	void RemoveWarning();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Hit Player")
+	void DamagePlayer(AActor* struckActor);
 
 private:
 	UFUNCTION(BlueprintCallable)

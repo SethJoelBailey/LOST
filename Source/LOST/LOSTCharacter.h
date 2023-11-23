@@ -31,6 +31,12 @@ public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
+	UPROPERTY(BlueprintReadWrite)
+	int32 HP = 2;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Death")
+	void PlayerDeath();	
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
