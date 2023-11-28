@@ -35,6 +35,7 @@ void ALOSTPlayerController::OnInputStarted()
 	StopMovement();
 }
 
+
 // Triggered every frame when the input is held down
 void ALOSTPlayerController::OnSetDestinationTriggered()
 {

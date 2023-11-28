@@ -19,6 +19,7 @@ class ALOSTPlayerController : public APlayerController
 public:
 	ALOSTPlayerController();
 
+
 	/** Time Threshold to know if it was a short press */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	float ShortPressThreshold;
@@ -42,6 +43,9 @@ public:
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
+
+	int seconds = 0;
+	int minutes = 0;
 
 	
 	// To add mapping context

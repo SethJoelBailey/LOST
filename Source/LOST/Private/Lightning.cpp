@@ -22,7 +22,7 @@ ALightning::ALightning()
 void ALightning::BeginPlay()
 {
 	Super::BeginPlay();
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ALightning::WhenToZap, 1.5f, true, 2.0f);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ALightning::WhenToZap, 1.0f, false, 2.0f);
 	// ...
 
 }
@@ -45,8 +45,8 @@ AActor* ALightning::fireLightning()
 	GetWorld()->LineTraceSingleByChannel(*hit, start, end, ECC_Visibility);
 	if (hit)
 	{
-		DrawDebugLine(GetWorld(), start, hit->Location, FColor::Red, false, 0.5f, 0, 10.0f);
-		DrawDebugSphere(GetWorld(), hit->Location, 50, 50, FColor::Blue, false, 0.5f);
+		DrawDebugLine(GetWorld(), start, hit->Location, FColor::Blue, false, 0.5f, 0, 10.0f);
+		//DrawDebugSphere(GetWorld(), hit->Location, 50, 50, FColor::Blue, false, 0.5f);
 	}
 	else
 	{
@@ -74,15 +74,17 @@ void ALightning::WhenToZap()
 		int zap = FMath::RandRange(1, intensity);
 		if (zap == 1)
 		{
-			//intensity--;
+			intensity--;
+			if (intensity <= 1) intensity = 2;
 			DisplayWarning();
-			GetWorld()->GetTimerManager().SetTimer(DestinedZap, this, &ALightning::fireFireLightning, 1.0f, false);
+			GetWorld()->GetTimerManager().SetTimer(DestinedZap, this, &ALightning::fireFireLightning, 0.5f, false);
 		}
 		else
 		{
 			CallTracker = 5;
 		}
 	}
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ALightning::WhenToZap, 1.0f, false);
 }
 
 void ALightning::lightningTimer()
