@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "TimerManager.h"
 #include "Engine/World.h"
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values for this component's properties
 ALightning::ALightning()
@@ -22,9 +23,15 @@ ALightning::ALightning()
 void ALightning::BeginPlay()
 {
 	Super::BeginPlay();
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ALightning::WhenToZap, 1.0f, false, 2.0f);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ALightning::WhenToZap, (FMath::RandRange(1.0f, 1.5f)), false, 2.0f);
+//	ALOSTCharacter* AsALOSTCharacter = Cast<ALOSTCharacter>(UGameplayStatics::GetPlayerCharacter(0));
+//	AsALOSTCharacter->OnDeath.AddDynamic(this, &Lightning::PlayerHasDied);
 	// ...
 
+}
+
+void ALightning::PlayerHasDied()
+{
 }
 
 
@@ -46,7 +53,6 @@ AActor* ALightning::fireLightning()
 	if (hit)
 	{
 		DrawDebugLine(GetWorld(), start, hit->Location, FColor::Blue, false, 0.5f, 0, 10.0f);
-		//DrawDebugSphere(GetWorld(), hit->Location, 50, 50, FColor::Blue, false, 0.5f);
 	}
 	else
 	{
@@ -69,7 +75,7 @@ void ALightning::WhenToZap()
 	
 	CallTracker--;
 
-	if (true)
+	if (isPlayerAlive)
 	{
 		int zap = FMath::RandRange(1, intensity);
 		if (zap == 1)
@@ -83,8 +89,9 @@ void ALightning::WhenToZap()
 		{
 			CallTracker = 5;
 		}
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ALightning::WhenToZap, (FMath::RandRange(1.0f, 1.5f)) , false);
 	}
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ALightning::WhenToZap, 1.0f, false);
+	
 }
 
 void ALightning::lightningTimer()

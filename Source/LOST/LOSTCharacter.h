@@ -15,6 +15,8 @@ enum GridJumpOptions
 	Right UMETA(DisplayName = "Right")
 };
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPlayerHasDied);
+
 UCLASS(Blueprintable)
 class ALOSTCharacter : public ACharacter
 {
@@ -37,6 +39,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Death")
 	void PlayerDeath();	
 
+	UPROPERTY(BlueprintAssignable)
+	FPlayerHasDied OnDeath;
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -51,6 +56,6 @@ private:
 
 	UFUNCTION(BlueprintCallable)
 	bool isValidGridPosition(FVector pos);
-	
+
 };
 

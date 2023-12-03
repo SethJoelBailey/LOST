@@ -54,7 +54,8 @@ void ALOSTCharacter::PlayerDeath_Implementation()
 {
 	if (HP <= 0)
 	{
-		Destroy();
+		this->SetActorHiddenInGame(true);
+		OnDeath.Broadcast();
 	}
 }
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "LOSTCharacter.generated.h"
 #include "Lightning.generated.h"
 
 UCLASS()
@@ -21,7 +22,8 @@ protected:
 
 	int32 CallTracker = 5;
 
-	int intensity = 10;
+	UFUNCTION()
+	void PlayerHasDied();
 
 public:
 	// Called every frame
@@ -35,6 +37,12 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Hit Player")
 	void DamagePlayer(AActor* struckActor);
+
+	UPROPERTY(BlueprintReadWrite)
+	int intensity = 10;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool isPlayerAlive = true;
 
 private:
 	UFUNCTION(BlueprintCallable)
