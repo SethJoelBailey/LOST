@@ -43,12 +43,12 @@ void ALightning::Tick(float DeltaTime)
 	// ...
 }
 
-AActor* ALightning::fireLightning()
+AActor* ALightning::fireLightning(int startX, int startY, int startZ, int endX, int endY, int endZ)
 {
 	RemoveWarning();
 	FHitResult* hit = new FHitResult;
-	FVector start = GetActorLocation() + FVector(50, -50, 600);
-	FVector end = start + FVector(0, 0, -1000);
+	FVector start = GetActorLocation() + FVector(startX, startY, startZ);
+	FVector end = start + FVector(endX, endY, endZ);
 	GetWorld()->LineTraceSingleByChannel(*hit, start, end, ECC_Visibility);
 	if (hit)
 	{

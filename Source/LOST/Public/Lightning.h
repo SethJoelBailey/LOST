@@ -44,9 +44,18 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool isPlayerAlive = true;
 
+	//UPROPERTY(BlueprintReadWrite)
+	//int startX = 50;
+
+	//UPROPERTY(BlueprintReadWrite)
+	//int startY = -50;
+
+	//UPROPERTY(BlueprintReadWrite)
+	//int startZ = 600;
+
 private:
 	UFUNCTION(BlueprintCallable)
-	AActor* fireLightning();
+	AActor* fireLightning(int startX = 50, int startY = -50, int startZ = 600, int endX = 0, int endY = 0, int endZ = -1000);
 
 	UFUNCTION(BlueprintCallable)
 	void fireFireLightning();
@@ -59,4 +68,5 @@ private:
 	FTimerHandle TimerHandle;
 	FTimerHandle DestinedZap;
 
+	
 };
