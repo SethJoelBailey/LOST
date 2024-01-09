@@ -52,7 +52,7 @@ AActor* ALightning::fireLightning(int startX, int startY, int startZ, int endX, 
 	GetWorld()->LineTraceSingleByChannel(*hit, start, end, ECC_Visibility);
 	if (hit)
 	{
-		DrawDebugLine(GetWorld(), start, hit->Location, FColor::Blue, false, 0.5f, 0, 10.0f);
+		DrawDebugLine(GetWorld(), start, hit->Location, FColor(0, 0, 0));
 	}
 	else
 	{
