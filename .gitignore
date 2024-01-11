@@ -7,6 +7,11 @@
 *.o
 *.obj
 
+# Compiled files
+*.pdb
+*.zip
+*.ucas
+
 # Precompiled Headers
 *.gch
 *.pch
